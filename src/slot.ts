@@ -7,8 +7,10 @@ export class Slot {
     if (matchingSymbols.length === 0) {
       return 0;
     }
+
     const firstSymbol: number = matchingSymbols[0];
     let count: number = 1;
+
     for (let i = 1; i < matchingSymbols.length; i++) {
       if (matchingSymbols[i] !== firstSymbol) {
         break;
@@ -22,6 +24,7 @@ export class Slot {
   spin(): SpinResult {
     const visibleReels: number[][] = [];
     const reelPositions: number[] = [];
+
     for (let col = 0; col < this.config.reelsCount; col++) {
       const reel = this.config.reels[col];
       const start = Math.floor(Math.random() * reel.length);
@@ -33,7 +36,9 @@ export class Slot {
       }
       visibleReels.push(visibleSymbols);
     }
+
     const paylineSymbols: number[][] = [];
+
     for (let i = 0; i < this.config.lines.length; i++) {
       const line = this.config.lines[i];
       const lineSymbols: number[] = [];
@@ -44,11 +49,15 @@ export class Slot {
       }
       paylineSymbols.push(lineSymbols);
     }
+
     const matchingCountNumbers: number[] = [];
+
     for (let i = 0; i < paylineSymbols.length; i++) {
       matchingCountNumbers.push(this.countMatchingSymbols(paylineSymbols[i]));
     }
+
     const linePayouts: number[] = [];
+
     for (let i = 0; i < paylineSymbols.length; i++) {
       const symbol = paylineSymbols[i][0];
       const count = matchingCountNumbers[i];
@@ -60,10 +69,12 @@ export class Slot {
       const payout: number = payouts[count - 1];
       linePayouts.push(payout);
     }
+
     const totalPayout: number = linePayouts.reduce(
       (sum, linePayout) => sum + linePayout,
       0,
     );
+
     return {
       reelPositions,
       visibleReels,
