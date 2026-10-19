@@ -16,9 +16,21 @@ export class Slot {
       }
       columns.push(visibleSymbols);
     }
+    const allLineNumbers: number[][] = [];
+    for (let i = 0; i < this.config.lines.length; i++) {
+      const line = this.config.lines[i];
+      const lineSymbols: number[] = [];
+      for (let col = 0; col < line.length; col++) {
+        const row = line[col];
+        const lineSymbol = columns[col][row];
+        lineSymbols.push(lineSymbol);
+      }
+      allLineNumbers.push(lineSymbols);
+    }
     return {
       positions,
       columns,
+      allLineNumbers,
     };
   }
 }
