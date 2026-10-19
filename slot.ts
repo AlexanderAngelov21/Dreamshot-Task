@@ -20,37 +20,37 @@ export class Slot {
   }
 
   spin(): SpinResult {
-    const columns: number[][] = [];
-    const positions: number[] = [];
+    const visibleReels: number[][] = [];
+    const reelPositions: number[] = [];
     for (let col = 0; col < this.config.reelsCount; col++) {
       const reel = this.config.reels[col];
       const start = Math.floor(Math.random() * reel.length);
       const visibleSymbols: number[] = [];
-      positions.push(start);
+      reelPositions.push(start);
       for (let row = 0; row < this.config.rowsCount; row++) {
         const index = (start + row) % reel.length;
         visibleSymbols.push(reel[index]);
       }
-      columns.push(visibleSymbols);
+      visibleReels.push(visibleSymbols);
     }
-    const allLineNumbers: number[][] = [];
+    const paylineSymbols: number[][] = [];
     for (let i = 0; i < this.config.lines.length; i++) {
       const line = this.config.lines[i];
       const lineSymbols: number[] = [];
       for (let col = 0; col < line.length; col++) {
         const row = line[col];
-        const lineSymbol = columns[col][row];
+        const lineSymbol = visibleReels[col][row];
         lineSymbols.push(lineSymbol);
       }
-      allLineNumbers.push(lineSymbols);
+      paylineSymbols.push(lineSymbols);
     }
     const matchingCountNumbers: number[] = [];
-    for (let i = 0; i < allLineNumbers.length; i++) {
-      matchingCountNumbers.push(this.countMatchingSymbols(allLineNumbers[i]));
+    for (let i = 0; i < paylineSymbols.length; i++) {
+      matchingCountNumbers.push(this.countMatchingSymbols(paylineSymbols[i]));
     }
     const linePayouts: number[] = [];
-    for (let i = 0; i < allLineNumbers.length; i++) {
-      const symbol = allLineNumbers[i][0];
+    for (let i = 0; i < paylineSymbols.length; i++) {
+      const symbol = paylineSymbols[i][0];
       const count = matchingCountNumbers[i];
       if (count < 3) {
         linePayouts.push(0);
@@ -60,11 +60,16 @@ export class Slot {
       const payout: number = payouts[count - 1];
       linePayouts.push(payout);
     }
+    const totalPayout: number = linePayouts.reduce(
+      (sum, linePayout) => sum + linePayout,
+      0,
+    );
     return {
-      positions,
-      columns,
-      allLineNumbers,
+      reelPositions,
+      visibleReels,
+      paylineSymbols,
       linePayouts,
+      totalPayout,
     };
   }
 }

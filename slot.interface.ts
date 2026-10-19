@@ -6,8 +6,9 @@ export interface SlotConfig {
   symbols: Record<number, number[]>;
 }
 export interface SpinResult {
-  positions: number[];
-  columns: number[][];
-  allLineNumbers: number[][];
+  reelPositions: number[];
+  visibleReels: number[][];
+  paylineSymbols: number[][];
   linePayouts: number[];
+  totalPayout: number;
 }
