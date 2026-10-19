@@ -3,6 +3,7 @@ export interface SlotConfig {
   rowsCount: number;
   reels: number[][];
   lines: number[][];
+  symbols: Record<number, number[]>;
 }
 export interface SpinResult {
   positions: number[];

@@ -2,6 +2,23 @@ import { SpinResult, SlotConfig } from "./slot.interface";
 
 export class Slot {
   constructor(private readonly config: SlotConfig) {}
+
+  private countMatchingSymbols(matchingSymbols: number[]): number {
+    if (matchingSymbols.length === 0) {
+      return 0;
+    }
+    const firstSymbol: number = matchingSymbols[0];
+    let count: number = 1;
+    for (let i = 1; i < matchingSymbols.length; i++) {
+      if (matchingSymbols[i] !== firstSymbol) {
+        break;
+      }
+      count++;
+    }
+
+    return count;
+  }
+
   spin(): SpinResult {
     const columns: number[][] = [];
     const positions: number[] = [];
