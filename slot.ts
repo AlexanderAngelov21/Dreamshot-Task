@@ -44,10 +44,27 @@ export class Slot {
       }
       allLineNumbers.push(lineSymbols);
     }
+    const matchingCountNumbers: number[] = [];
+    for (let i = 0; i < allLineNumbers.length; i++) {
+      matchingCountNumbers.push(this.countMatchingSymbols(allLineNumbers[i]));
+    }
+    const linePayouts: number[] = [];
+    for (let i = 0; i < allLineNumbers.length; i++) {
+      const symbol = allLineNumbers[i][0];
+      const count = matchingCountNumbers[i];
+      if (count < 3) {
+        linePayouts.push(0);
+        continue;
+      }
+      const payouts: number[] = this.config.symbols[symbol];
+      const payout: number = payouts[count - 1];
+      linePayouts.push(payout);
+    }
     return {
       positions,
       columns,
       allLineNumbers,
+      linePayouts,
     };
   }
 }

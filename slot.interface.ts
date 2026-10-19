@@ -9,4 +9,5 @@ export interface SpinResult {
   positions: number[];
   columns: number[][];
   allLineNumbers: number[][];
+  linePayouts: number[];
 }
