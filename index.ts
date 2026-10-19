@@ -3,4 +3,6 @@ import configuration from "./configuration";
 
 const slot = new Slot(configuration);
 
-slot.spin();
+const result = slot.spin();
+
+console.log(result);

@@ -1,5 +1,9 @@
-interface SlotConfig {
+export interface SlotConfig {
   reelsCount: number;
-  rowsCounts: number;
+  rowsCount: number;
   reels: number[][];
+}
+export interface SpinResult {
+  positions: number[];
+  columns: number[][];
 }
