@@ -107,6 +107,35 @@ describe("Slot", () => {
       expect(reel).toEqual([5, 1, 2]);
     }
   });
+  it("should use wilds to pay the highest win on a line", () => {
+    const testConfig: SlotConfig = {
+      ...configuration,
+      rowsCount: 1,
+      reels: [[10], [10], [1], [2], [3]],
+      lines: [[0, 0, 0, 0, 0]],
+    };
+
+    const result = new Slot(testConfig).spin();
+
+    expect(result.linePayouts).toEqual([25]);
+    expect(result.totalPayout).toBe(25);
+  });
+
+  it("should use the last payout when the payout array is shorter", () => {
+    const testConfig: SlotConfig = {
+      ...configuration,
+      rowsCount: 1,
+      reels: [[1], [1], [1], [1], [1]],
+      lines: [[0, 0, 0, 0, 0]],
+      symbols: { 1: [0, 0, 10] },
+    };
+
+    const result = new Slot(testConfig).spin();
+
+    expect(result.linePayouts).toEqual([10]);
+    expect(result.totalPayout).toBe(10);
+  });
+
   it("Should return zero payout for fewer than 3 matching elements", () => {
     jest.spyOn(Math, "random").mockReturnValue(0);
     const testConfig: SlotConfig = {

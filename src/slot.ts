@@ -68,32 +68,27 @@ export class Slot {
     const linePayouts: number[] = [];
 
     for (const line of paylineSymbols) {
-      const count = this.countMatchingSymbols(line);
+      let bestPayout = 0;
 
-      if (count < 3) {
-        linePayouts.push(0);
-        continue;
+      for (const [key, payouts] of Object.entries(this.config.symbols)) {
+        const count = this.countMatchingSymbols(line, Number(key));
+        //For shorter payout arrays than matching symbols we take the last available payout
+        const payoutIndex = Math.min(count, payouts.length) - 1;
+        const payout = count > 0 ? (payouts[payoutIndex] ?? 0) : 0;
+        bestPayout = Math.max(bestPayout, payout);
       }
 
-      const symbol = line[0];
-      const payouts = this.config.symbols[symbol];
-
-      linePayouts.push(payouts[count - 1]);
+      linePayouts.push(bestPayout);
     }
 
     return linePayouts;
   }
 
-  private countMatchingSymbols(symbols: number[]): number {
-    if (symbols.length === 0) {
-      return 0;
-    }
+  private countMatchingSymbols(line: number[], symbol: number): number {
+    let count = 0;
 
-    const firstSymbol = symbols[0];
-    let count = 1;
-
-    for (let i = 1; i < symbols.length; i++) {
-      if (symbols[i] !== firstSymbol) {
+    for (const current of line) {
+      if (current !== symbol && current !== this.config.wildSymbol) {
         break;
       }
 
