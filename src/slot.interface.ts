@@ -4,6 +4,7 @@ export interface SlotConfig {
   reels: number[][];
   lines: number[][];
   symbols: Record<number, number[]>;
+  wildSymbol?: number;
 }
 export interface SpinResult {
   reelPositions: number[];

@@ -24,9 +24,13 @@ This runs one spin and displays the reel positions, visible symbols and winnings
 
 - Each reel starts at a random position.
 - When a reel reaches its end, it continues from the beginning.
-- At least 3 matching symbols from left to right are required to win.
 - Winnings are calculated using the provided configuration.
+- If there are more matches than payout entries, the last payout is used.
 - Multiple paylines can win in one spin.
+
+## Wild Symbol
+
+Symbol 10 is wild and can replace any regular symbol. Only the highest win is paid per line.
 
 ## Simulation
 
